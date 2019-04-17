@@ -21,6 +21,10 @@ pack :: [Char] -> [[Char]]
 pack [] = []
 pack (x:xs) = pack' x (x:xs) []
     where
+        -- pack' spaltet das Präfix bestehend aus Symbolen
+        -- gleich dem erstem Argument von der Liste im zweiten Argument
+        -- ab. Der derzeitig abgespaltete Präfix wird im drittem
+        -- Argument gespeichert.
         pack' :: Char -> [Char] -> [Char] -> [[Char]]
         pack' _ [] acc = [acc]
         pack' c (x:xs) acc
@@ -31,9 +35,11 @@ pack (x:xs) = pack' x (x:xs) []
 encode :: [Char] -> [(Int, Char)]
 encode = encode' . pack
     where
+        -- length ist bereits im Modul Prelude vorhanden
         length [] = 0
         length (_:xs) = 1 + length xs
-        -- length ist bereits im Modul Prelude
+        -- encode' bildet für jede Liste in der übergebenen Liste
+        -- ein Tupel aus der Länge und dem erstem Element.
         encode' [] = []
         encode' ((c:cs):css) = (length (c:cs), c) : encode' css
 -- encode = map (\ (x:xs) -> (length xs + 1, x)) . pack
@@ -43,9 +49,11 @@ decode :: [(Int, Char)] -> [Char]
 decode [] = []
 decode ((i, c):ics) = replicate i c ++ decode ics
     where
+        -- replicate ist bereits im Modul Prelude vorhanden.
+        -- replicate n c bildet eine Liste, die genau `n`-mal
+        -- das Symbol `c` enthält.
         replicate 0 _ = []
         replicate i c = c : replicate (i-1) c
-        -- replicate ist bereits im Modul Prelude
 -- decode = concatMap (uncurry replicate)
 -- oder: decode = concat . map (\ (i, c) -> replicate i c)
 
@@ -54,7 +62,7 @@ rotate :: [Int] -> Int -> [Int]
 rotate [] _ = []
 rotate (x:xs) n
     | n == 0 = (x:xs)
-    | n < 0 = rotate (x:xs) (-n)
+    | n < 0 = rotate (x:xs) (n `mod` length (x:xs))
     | otherwise = rotate (xs ++ [x]) (n-1)
 
 {-  Aufgabe 2 a)    -}
@@ -62,17 +70,21 @@ unwords :: [String] -> String
 unwords [] = ""
 unwords [w] = w
 unwords (w:ws) = w ++ (' ' : unwords ws)
--- unwords ist bereits im Modul Prelude
+-- unwords ist bereits im Modul Prelude vorhanden
 
 {-  Aufgabe 2 b)    -}
 words :: String -> [String]
 words = words' []
     where
+        -- words' speichert den längsten Präfix des zweiten Arguments,
+        -- der kein Leerzeichen enthält, im ersten Argument. Wenn
+        -- die Funktion auf ein Leerzeichen trifft, wird dieser Präfix
+        -- ausgegeben, ansonsten das Zeichen dem Präfix angehangen.
         words' acc [] = [acc]
         words' acc (c:cs)
             | c == ' ' = acc : words' [] cs
             | otherwise = words' (acc ++ [c]) cs
--- words ist bereits im Modul Prelude
+-- words ist bereits im Modul Prelude vorhanden
 
 {-  Aufgabe 3 a)    -}
 data Tree = Node String [Tree] deriving (Show)
