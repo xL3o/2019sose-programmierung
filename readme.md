@@ -6,3 +6,4 @@
 * 4\. Übung am 30. April [Aufgaben 1, 2 und ZA 1](tut04.hs), [Aufgaben 3 und ZA 2](tut04.md)
 * [5. Übung am 07. Mai](tut05.md)
 * [6. Übung am 14. Mai](tut06.md)
+* [7. Übung am 21. Mai](tut07.md)
