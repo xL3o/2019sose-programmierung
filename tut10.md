@@ -8,7 +8,7 @@ trans(Max)
   = sttrans(scanf("%i", &a);, [a/(var, 1), b/(var, 2), c/(var, 3)], 1.1)
     sttrans(scanf("%i", &b);, [a/(var, 1), b/(var, 2), c/(var, 3)], 1.2)
     sttrans(if (a>b) max = a; else max = b;, [a/(var, 1), b/(var, 2), c/(var, 3)], 1.3)
-    sttrans(scanf("%i", &a);, [a/(var, 1), b/(var, 2), c/(var, 3)], 1.4)
+    sttrans(printf("%i", &a);, [a/(var, 1), b/(var, 2), c/(var, 3)], 1.4)
   = READ 1;
     READ 2;
     boolexptrans(a>b, [a/(var, 1), b/(var, 2), c/(var, 3)])
