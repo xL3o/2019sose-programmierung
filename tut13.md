@@ -17,7 +17,7 @@ Wir können deswegen nur eine schwächere Aussage als üblich bilden: F = (`a` m
 (Der Restbetrag bei der Division durch 3 bleibt immer gleich.)
 
 Für den zweiten Teil wählen wir eine Aussage über die Variablen in der Schleifenbedingung, sodass Sie vor, während und nach der Schleife gilt.
-In der Bedinung kommt wieder nur `x` vor.
+In der Bedingung kommt wieder nur `x` vor.
 Die Vorbedingung gibt indirekt an, dass vor der Schleife (`x` ≥ 0) gilt.
 Während der Schleife wird `x` dekrementiert, bis es kleiner oder gleich 2 ist.
 Da es immer um 3 dekrementiert wird, wird es aber nicht kleiner als 0.
@@ -50,7 +50,7 @@ tab_`f` = [`x`/(var, global, 1),
 ## Aufgabenteil (b)
 
 BZ |    DK | LK                      | Ref | Inp | Out
---:|------:|:--------------------    |:---:|----:|:----
+--:|------:|:------------------------|:---:|----:|:----
 12 |     ε | 0:3:__0__:7             | 3   | 5   | ε
 13 |       | 5:3:__0__:7             |     | ε   |
 14 |     7 |                         |     |     |
@@ -102,6 +102,10 @@ partition p (x:xs)
 maxrep :: [Int] -> Int
 maxrep xs = maximum (repetitions xs)
     where
+        -- zählt die Wiederholungen jedes Listenelements
+        -- z.B. [1,1]           ↦ [2]
+        --      [1,2,2,2,3,3,4] ↦ [1,3,2,1]
+        --      []              ↦ [0]
         repetitions :: [Int] -> [Int]
         repetitions [] = [0]
         repetitions (x:xs) = repetitions' 0 x (x:xs)
@@ -132,7 +136,7 @@ Allg. Unifikator: x₁ ↦ γ(α), x₂ ↦ x₂, x₃ ↦ σ(x₂, γ(α))
 ## Zusatzaufgabe 4
 
 __Induktionsanfang__:
-Sei `ys` = `[]` und `a, b :: Int` zwei beliebige Ganzzahlen.
+Sei `ys` = `[]` und `a, b :: Int` zwei beliebige ganze Zahlen.
 
 ```
 mul b (mul a ys) = mul b (mul a [])
@@ -146,7 +150,7 @@ __Induktionsschritt__:
 Sei `ys :: [Int]` eine Liste, sodass gilt:
     Für alle `a, b :: Int` gilt: mul b (mul a ys) = mul (b * a) ys      (IH)
 
-Seien `y, a, b :: Int` Ganzzahlen.
+Seien `y, a, b :: Int` ganze Zahlen.
 
 ```
 mul b (mul a (y:ys))
@@ -186,6 +190,33 @@ f x y
     | y == 0         = 2 * x
     | x `mod` 2 == 0 = f  x    (y-1)
     | otherwise      = f (x*2) (y-1)
+```
+
+### Aufgabenteil (c)
+
+```
+⟨Y⟩⟨F⟩ = (λh.(λy.h(yy))(λy.h(yy))) ⟨F⟩
+β
+⇒ (λy.⟨F⟩(yy)) (λy.⟨F⟩(yy))
+β
+⇒ ⟨F⟩ ((λy.⟨F⟩(yy)) (λy.⟨F⟩(yy)))
+	  ---------------------------
+	   = ⟨YF⟩
+```
+
+```
+⟨Y⟩⟨F⟩⟨2⟩⟨1⟩
+⇒* ⟨F⟩⟨YF⟩⟨2⟩⟨1⟩
+⇒* ⟨ite⟩ (⟨iszero⟩⟨1⟩)								-- (⟨iszero⟩⟨1⟩) ⇒* ⟨false⟩
+		 (⟨mult⟩ ⟨2⟩ ⟨2⟩)
+		 (⟨ite⟩ (⟨iszero⟩ (⟨mod⟩ ⟨1⟩ ⟨2⟩))			-- (⟨iszero⟩ (⟨mod⟩ ⟨1⟩ ⟨2⟩)) ⇒* ⟨false⟩
+		 		(⟨YF⟩ ⟨2⟩         	(⟨pred⟩ ⟨1⟩))
+		 		(⟨YF⟩ (⟨mult⟩⟨2⟩⟨2⟩) (⟨pred⟩ ⟨1⟩)))	-- ⟨YF⟩ ⇒* ⟨F⟩⟨YF⟩, (⟨mult⟩⟨2⟩⟨2⟩) ⇒* ⟨4⟩, (⟨pred⟩ ⟨1⟩) ⇒* ⟨0⟩
+⇒* ⟨F⟩⟨YF⟩⟨4⟩⟨0⟩
+⇒* ⟨ite⟩ (⟨iszero⟩⟨0⟩)								-- (⟨iszero⟩⟨0⟩) ⇒* ⟨true⟩
+		 (⟨mult⟩ ⟨4⟩ ⟨2⟩)							-- (⟨mult⟩ ⟨4⟩ ⟨2⟩) ⇒ ⟨8⟩
+		 (…)
+⇒* ⟨8⟩
 ```
 
 ## Zusatzaufgabe 6
