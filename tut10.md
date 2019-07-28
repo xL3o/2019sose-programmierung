@@ -140,7 +140,7 @@ siehe [tut10.pl](./tut10.pl)
 11: LOAD 2;
 12: LOAD 1;
 13: GT;
-14: JMC 18;
+14: JMC 19;
 15: LOAD 2;
 16: LIT 2;
 17: DIV;
